@@ -7,16 +7,19 @@ import Toolbar from '@material-ui/core/Toolbar';
 import MenuIcon from '@material-ui/icons/Menu';
 import Typography from '@material-ui/core/Typography';
 import { Divider, IconButton } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 export default function Header() {
     const [openMenu, setOpenMenu] = React.useState(null);
 
     const handleClick = (event) => {
       setOpenMenu(true);
+      console.log('abasdsad')
     };
   
     const handleClose = () => {
         setOpenMenu(false);
+        console.log('abasdsade')
     };
 
     
@@ -33,8 +36,9 @@ export default function Header() {
                     <MenuIcon fontSize="large" aria-label="menu" style={{ marginRight: [16] }} />
                     </IconButton>
                     <Menu open={openMenu} onClose={handleClose}>
-                        <MenuItem>Login</MenuItem>
-                        <MenuItem>Logout</MenuItem>
+                        <MenuItem component={Link} to={'/'} onClick={handleClose}>Game</MenuItem>
+                        <MenuItem component={Link} to={'/login'} onClick={handleClose}>Login</MenuItem>
+                        <MenuItem onClick={handleClose}>Logout</MenuItem>
                     </Menu>
                     <Typography variant="h6">
                     Dual-N-Back | The Game
