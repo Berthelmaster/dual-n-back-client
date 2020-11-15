@@ -14,12 +14,10 @@ export default function Header() {
 
     const handleClick = (event) => {
       setOpenMenu(true);
-      console.log('abasdsad')
     };
   
     const handleClose = () => {
         setOpenMenu(false);
-        console.log('abasdsade')
     };
 
     
