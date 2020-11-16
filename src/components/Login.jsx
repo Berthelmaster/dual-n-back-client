@@ -5,7 +5,6 @@ import TextField from '@material-ui/core/TextField';
 import { render } from "@testing-library/react";
 import { withStyles } from '@material-ui/core/styles';
 
-
 const styles = theme => ({
     center: {
         margin: "auto",
@@ -57,7 +56,7 @@ class Login extends Component {
                     <TextField id="outlined-basic" label="Password" variant="outlined" onChange={this.handleChange}/>
                     <br/>
                     <br/>
-                    <Button variant="contained" color="accent">
+                    <Button variant="contained" color="primary">
                         Login
                     </Button>
                 </form>
