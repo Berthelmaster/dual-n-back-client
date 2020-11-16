@@ -3,10 +3,29 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { render } from "@testing-library/react";
+import { withStyles } from '@material-ui/core/styles';
 
 
-export default class Login extends Component {
-    
+const styles = theme => ({
+    center: {
+        margin: "auto",
+        textAlign: "center",
+        width: "30%",
+    },
+    loginBox: {
+        border: "3px solid blue",
+        padding: "10px",
+        marginTop: "10px",
+        borderRadius: "25px",
+        background: "#eb8c34",
+    },
+    space: {
+
+    }
+});
+
+class Login extends Component {
+
     constructor(props){
         super(props);
         this.state = {
@@ -27,14 +46,18 @@ export default class Login extends Component {
     }
 
     render() {
+        const {classes} = this.props;
         return (  
-            <div className="Login">
+            <div className={[classes.loginBox, classes.center].join(' ')}>
+                <h1>Login</h1>
                 <form noValidate autoComplete="off">
                     <TextField id="outlined-basic" label="Username" variant="outlined" />
                     <br/>
+                    <br/>
                     <TextField id="outlined-basic" label="Password" variant="outlined" onChange={this.handleChange}/>
                     <br/>
-                    <Button variant="contained" color="primary">
+                    <br/>
+                    <Button variant="contained" color="accent">
                         Login
                     </Button>
                 </form>
@@ -42,3 +65,6 @@ export default class Login extends Component {
         );
     }
 }
+
+
+export default withStyles(styles)(Login)
