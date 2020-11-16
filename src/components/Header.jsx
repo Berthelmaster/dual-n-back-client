@@ -34,6 +34,7 @@ export default function Header() {
                     </IconButton>
                     <Menu open={openMenu} onClose={handleClose}>
                         <MenuItem component={Link} to={'/'} onClick={handleClose}>Game</MenuItem>
+                        <MenuItem component={Link} to={'/rules'} onClick={handleClose}>Rules</MenuItem>
                         <MenuItem component={Link} to={'/login'} onClick={handleClose}>Login</MenuItem>
                         <MenuItem onClick={handleClose}>Logout</MenuItem>
                     </Menu>
