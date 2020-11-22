@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 
 export default function Header() {
     const [openMenu, setOpenMenu] = React.useState(null);
+    const anchorRef = React.useRef(null);
 
     const handleClick = (event) => {
       setOpenMenu(true);
@@ -30,9 +31,9 @@ export default function Header() {
                         color="inherit"
                         onClick={handleClick}
                     >
-                    <MenuIcon fontSize="large" aria-label="menu" style={{ marginRight: [16] }} />
+                    <MenuIcon fontSize="large" aria-label="menu" style={{ marginRight: [16] }} ref={anchorRef} />
                     </IconButton>
-                    <Menu open={openMenu} onClose={handleClose}>
+                    <Menu open={openMenu} anchorEl={anchorRef.current} onClose={handleClose}>
                         <MenuItem component={Link} to={'/'} onClick={handleClose}>Game</MenuItem>
                         <MenuItem component={Link} to={'/rules'} onClick={handleClose}>Rules</MenuItem>
                         <MenuItem component={Link} to={'/login'} onClick={handleClose}>Login</MenuItem>

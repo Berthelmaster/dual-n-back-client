@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import React from 'react'
 import emojipizza from '../assets/emojipizza.png'
 import { Button } from '@material-ui/core';
+import { Block, BlockOutlined, BlockSharp } from '@material-ui/icons';
 
 const useStyles = makeStyles({
     root: {
@@ -13,7 +14,7 @@ const useStyles = makeStyles({
     },
     customBox: {
         flex: 0.33,
-        height: 180,
+        height: "8vw",
         padding: 5
     },
     customInnerBox: {
