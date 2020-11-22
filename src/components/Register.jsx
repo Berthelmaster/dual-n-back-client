@@ -37,13 +37,27 @@ class Register extends Component {
     };
 
     handleSubmit(event) {
-        console.log(this.state.password);
         event.preventDefault();
+        const localSite = "http://localhost:3000/register";
+        fetch(localSite, {
+            "method": "POST",
+            "body": JSON.stringify({
+                userName: this.state.username,
+                password: this.state.password
+            }),
+            "mode": "no-cors",
+            })
+            .then(response => response.json())
+            .then(response => {
+            console.log(response)
+            })
+            .catch(err => {
+            console.log(err);
+            });
     }
 
     handleChange(event) {
         this.setState({ [event.target.name]: event.target.value});
-        console.log("Print: " + event.target.value);
     }
 
     render() {
@@ -68,3 +82,13 @@ class Register extends Component {
 }
 
 export default withStyles(styles)(Register)
+
+/* 
+
+            "headers": {
+                "x-rapidapi-host": "fairestdb.p.rapidapi.com",
+                "x-rapidapi-key": API_KEY,
+                "content-type": "application/json",
+                "accept": "application/json"
+            },
+*/
