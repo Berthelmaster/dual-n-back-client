@@ -1,4 +1,5 @@
 import React, {Component } from "react";
+import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { render } from "@testing-library/react";
@@ -10,7 +11,7 @@ const styles = theme => ({
         textAlign: "center",
         width: "30%",
     },
-    loginBox: {
+    registerBox: {
         border: "3px solid blue",
         padding: "10px",
         marginTop: "10px",
@@ -22,7 +23,7 @@ const styles = theme => ({
     }
 });
 
-class Login extends Component {
+class Register extends Component {
     
     constructor(props){
         super(props);
@@ -42,15 +43,14 @@ class Login extends Component {
 
     handleChange(event) {
         this.setState({ [event.target.name]: event.target.value});
-        console.log("Print: " + this.state.password);
-        console.log("Print: " + this.state.username);
+        console.log("Print: " + event.target.value);
     }
 
     render() {
         const {classes} = this.props;
         return (  
-            <div className={[classes.loginBox, classes.center].join(' ')}>  
-                <h1>Login</h1>              
+            <div className={[classes.registerBox, classes.center].join(' ')}>  
+                <h1>Register</h1>  
                 <form noValidate autoComplete="off" onSubmit={this.handleSubmit}>
                     <TextField id="outlined-basic" label="Username" name="username" variant="outlined" onChange={this.handleChange}/>
                     <br/>
@@ -59,11 +59,12 @@ class Login extends Component {
                     <br/>
                     <br/>
                     <Button variant="contained" color="primary" type="submit">
-                        Login
+                        Register
                     </Button>
                 </form>
             </div>
         );
     }
 }
-export default withStyles(styles)(Login)
+
+export default withStyles(styles)(Register)
