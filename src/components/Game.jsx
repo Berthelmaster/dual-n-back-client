@@ -87,8 +87,8 @@ export default function Game() {
             direction="row"
             justify="center"
             alignItems="center">
-            <h4 className={classes.buttonScore}>You Score <b id="yourscore">0</b> points</h4>
-            <h4 className={classes.buttonScore}>Current highscore <b id="highscorecount">0</b> points</h4>
+            <h4 className={classes.buttonScore}>You Score <b id="playerscore">0</b> points</h4>
+            <h4 className={classes.buttonScore}>Current highscore <b id="highscore">0</b> points</h4>
             </Grid>
             <div>
                 <Button variant="contained" color="primary" href="#contained-buttons">Play</Button>
