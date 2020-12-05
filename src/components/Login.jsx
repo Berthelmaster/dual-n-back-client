@@ -3,6 +3,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { render } from "@testing-library/react";
 import { withStyles } from '@material-ui/core/styles';
+import { helpers } from "../helpers";
 
 const styles = theme => ({
     center: {
@@ -36,14 +37,32 @@ class Login extends Component {
     };
 
     handleSubmit(event) {
-        console.log(this.state.password);
         event.preventDefault();
+        const localSite = "http://localhost:3000/login";
+        fetch(localSite, {
+            "method": "POST",
+            "headers" : {
+                'Content-Type': 'application/json'
+            },
+            "body": JSON.stringify({
+                userName: this.state.username,
+                password: this.state.password
+            }),
+            //"mode": "no-cors",
+            })
+            .then(response => response.json())
+            .then((response) => {
+                helpers.PushToken(response.token)
+                helpers.PushUsername(response.username)
+                this.props.history.push('/')
+            })
+            .catch(err => {
+                console.log(err)
+            });
     }
 
     handleChange(event) {
         this.setState({ [event.target.name]: event.target.value});
-        console.log("Print: " + this.state.password);
-        console.log("Print: " + this.state.username);
     }
 
     render() {
@@ -52,10 +71,10 @@ class Login extends Component {
             <div className={[classes.loginBox, classes.center].join(' ')}>  
                 <h1>Login</h1>              
                 <form noValidate autoComplete="off" onSubmit={this.handleSubmit}>
-                    <TextField id="outlined-basic" label="Username" name="username" variant="outlined" onChange={this.handleChange}/>
+                    <TextField label="Username" name="username" variant="outlined" onChange={this.handleChange}/>
                     <br/>
                     <br/>
-                    <TextField id="outlined-basic" label="Password" name="password" variant="outlined" onChange={this.handleChange}/>
+                    <TextField type="password" label="Password" name="password" variant="outlined" onChange={this.handleChange}/>
                     <br/>
                     <br/>
                     <Button variant="contained" color="primary" type="submit">

@@ -38,21 +38,23 @@ class Register extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        const localSite = "http://localhost:3000/register";
+        const localSite = "http://localhost:3000/register"
         fetch(localSite, {
             "method": "POST",
+            "headers" : {
+                'Content-Type': 'application/json'
+            },
             "body": JSON.stringify({
                 userName: this.state.username,
                 password: this.state.password
             }),
-            "mode": "no-cors",
+            //"mode": "no-cors",
             })
-            .then(response => response.json())
-            .then(response => {
-            console.log(response)
+            .then(() => {
+                this.props.history.push('/login')
             })
             .catch(err => {
-            console.log(err);
+                console.log(err);
             });
     }
 
@@ -66,10 +68,10 @@ class Register extends Component {
             <div className={[classes.registerBox, classes.center].join(' ')}>  
                 <h1>Register</h1>  
                 <form noValidate autoComplete="off" onSubmit={this.handleSubmit}>
-                    <TextField id="outlined-basic" label="Username" name="username" variant="outlined" onChange={this.handleChange}/>
+                    <TextField label="Username" name="username" variant="outlined" onChange={this.handleChange}/>
                     <br/>
                     <br/>
-                    <TextField id="outlined-basic" label="Password" name="password" variant="outlined" onChange={this.handleChange}/>
+                    <TextField type="password" label="Password" name="password" variant="outlined" onChange={this.handleChange}/>
                     <br/>
                     <br/>
                     <Button variant="contained" color="primary" type="submit">
