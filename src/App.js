@@ -6,6 +6,8 @@ import Login from './components/Login'
 import Register from './components/Register'
 import Error from './components/Error'
 import Rules from './components/Rules'
+import { helpers } from "./helpers";
+import PrivateRoute from './PrivateRoute'
 
 function App() {
   return (
@@ -13,8 +15,8 @@ function App() {
     <div className="App">
       <Header />
         <Switch>
-          <Route path="/login" exact component={Login} />
-          <Route path="/register" exact component={Register} />
+          <PrivateRoute path="/login" exact component={Login} />
+          <PrivateRoute path="/register" exact component={Register} />
           <Route path="/rules" exact component={Rules} />
           <Route path="/" exact component={Game} />
           <Route path="*" component={Error} />

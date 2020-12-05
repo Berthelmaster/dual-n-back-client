@@ -97,6 +97,8 @@ const useStyles = theme => ({
         ws.onmessage = evt => {
             // listen to data sent from the websocket server
             console.log(evt.data)
+
+            this.setState({creditedPlayer: evt.data})
         }
 
         // websocket onclose event listener
@@ -190,12 +192,12 @@ const useStyles = theme => ({
 
         this.clearGame();
 
-        this.sendHighScore()
+        this.sendPlayerScore()
         // Send data to server
 
     }
 
-    async sendHighScore() {
+    async sendPlayerScore() {
         var username = helpers.GetUsername()
         var token = helpers.GetToken()
 
@@ -205,9 +207,9 @@ const useStyles = theme => ({
         }
 
         //Get score
-        var highscore = {name: username, score: this.state.playerScore}
+        var playerScore = {name: username, score: this.state.playerScore}
 
-        var json = JSON.stringify(highscore)
+        var json = JSON.stringify(playerScore)
         this.state.ws.send(json)
     }
 

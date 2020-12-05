@@ -7,10 +7,13 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Typography from '@material-ui/core/Typography';
 import { IconButton } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import { helpers } from "../helpers";
+import { useHistory } from "react-router-dom";
 
 export default function Header() {
     const [openMenu, setOpenMenu] = React.useState(false);
     const anchorRef = React.useRef(null);
+    let history = useHistory();
 
     const handleClick = (event) => {
       setOpenMenu(true);
@@ -20,7 +23,14 @@ export default function Header() {
         setOpenMenu(false);
     };
 
-    
+    const logout = () => {
+        helpers.DeleteToken();
+        helpers.DeleteUsername();
+        history.push('/');
+        setOpenMenu(false);
+    }
+
+    const isLoggedIn = helpers.GetToken() ? true : false;
 
     return (
         <div>
@@ -36,8 +46,12 @@ export default function Header() {
                     <Menu open={openMenu} anchorEl={anchorRef.current} onClose={handleClose}>
                         <MenuItem component={Link} to={'/'} onClick={handleClose}>Game</MenuItem>
                         <MenuItem component={Link} to={'/rules'} onClick={handleClose}>Rules</MenuItem>
-                        <MenuItem component={Link} to={'/login'} onClick={handleClose}>Login</MenuItem>
-                        <MenuItem onClick={handleClose}>Logout</MenuItem>
+                        {isLoggedIn == false &&
+                        <MenuItem component={Link} to={'/login'} onClick={handleClose} >Login</MenuItem>
+                        }
+                        {isLoggedIn == true &&
+                        <MenuItem onClick={handleClose} onClick={logout}>Logout</MenuItem>
+                        }
                     </Menu> 
                     <Typography variant="h6">
                     Dual-N-Back | The Game
