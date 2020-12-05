@@ -52,9 +52,9 @@ const useStyles = theme => ({
     };
 
 
-    generateRandomNumber() {
-        var minNumber = 1;
-        var maxNumber = 9;
+    generateRandomNumber(min, max) {
+        var minNumber = min;
+        var maxNumber = max;
 
         return Math.floor(Math.random() * maxNumber) + minNumber;
     }
@@ -120,7 +120,7 @@ const useStyles = theme => ({
         await this.CoolHideAllImages();
 
         do{
-            random = this.generateRandomNumber();
+            random = this.generateRandomNumber(1, 9);
             //console.log(random)
 
             // Get element
@@ -130,12 +130,43 @@ const useStyles = theme => ({
             // Play Game here
 
             element.style.backgroundImage = `url(${emojipizza})`
+            this.playSound();
             
             await this.sleep(2000)
 
             element.style.backgroundImage = 'none'
 
         }while(this.state.isRunning === true)
+     }
+
+     createSoundResult(){
+        var random = this.generateRandomNumber(1, 3);
+        var sound = ''
+        var catSound = 'cat';
+        var dogSound = 'dog';
+        var tigerSound = 'tiger'
+
+        console.log(random)
+        
+        switch(random){
+            case 1:
+                sound = catSound;
+                break;
+            case 2:
+                sound = dogSound;
+                break;
+            case 3:
+                sound = tigerSound;
+                break;
+        }
+
+        return sound;
+     }
+
+     playSound(){
+        var sound = this.createSoundResult();
+        let voice = new SpeechSynthesisUtterance(sound);
+        speechSynthesis.speak(voice);
      }
 
     render(){
