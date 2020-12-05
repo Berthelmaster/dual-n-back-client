@@ -108,8 +108,12 @@ const useStyles = theme => ({
         ws.onmessage = evt => {
             // listen to data sent from the websocket server
             console.log(evt.data)
-
-            this.setState({creditedPlayer: evt.data})
+            var obj = JSON.parse(evt.data);
+            console.log("pbj " + obj)
+            this.setState({
+                creditedPlayer: obj.name,
+                highScore: obj.score
+            })
         }
 
         // websocket onclose event listener

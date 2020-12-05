@@ -26,7 +26,7 @@ export default function Header() {
     const logout = () => {
         helpers.DeleteToken();
         helpers.DeleteUsername();
-        history.push('/');
+        history.push('/login');
         setOpenMenu(false);
     }
 
