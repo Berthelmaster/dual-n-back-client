@@ -79,6 +79,10 @@ const useStyles = theme => ({
      * @function connect
      * This function establishes the connect with the websocket and also ensures constant reconnection if connection closes
      */
+
+     /*
+     This code is from: https://dev.to/finallynero/using-websockets-in-react-4fkp
+     */
     connect = () => {
         var ws = new WebSocket("ws://127.0.0.1:3000/");
         let that = this; // cache the this
