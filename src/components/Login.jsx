@@ -34,6 +34,7 @@ class Login extends Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.goToRegister = this.goToRegister.bind(this);
     };
 
     handleSubmit(event) {
@@ -65,6 +66,11 @@ class Login extends Component {
         this.setState({ [event.target.name]: event.target.value});
     }
 
+    goToRegister(event){
+        event.preventDefault();
+        this.props.history.push('/register')
+    }
+
     render() {
         const {classes} = this.props;
         return (  
@@ -81,6 +87,10 @@ class Login extends Component {
                         Login
                     </Button>
                 </form>
+                <p>Don't have an account?</p>
+                <Button variant="contained" color="primary" onClick={this.goToRegister}>
+                    Register
+                </Button>
             </div>
         );
     }
