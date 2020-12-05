@@ -11,7 +11,16 @@ const useStyles = theme => ({
     root: {
         width: '50%',
         margin: "auto",
-        marginTop: 0
+        marginTop: 0,
+    },
+    gamebuttons: {
+        margin: "auto",
+        marginTop: 0,
+        textAlign: "center"
+    },
+    wbuttons: {
+        width: "200px",
+        height: "60px"
     },
     customBox: {
         flex: 0.33,
@@ -44,11 +53,16 @@ const useStyles = theme => ({
     constructor(props){
         super(props);
         this.state = {
-            isRunning: false
+            isRunning: false,
+            gameList: [],
+            playerScore: 0
         }
 
         this.stop = this.stop.bind(this)
         this.play = this.play.bind(this)
+        this.positionPressed = this.positionPressed.bind(this)
+        this.soundPressed = this.soundPressed.bind(this)
+        this.bothPressed = this.bothPressed.bind(this)
     };
 
 
@@ -106,7 +120,13 @@ const useStyles = theme => ({
     async stop(event) {
         event.preventDefault();
 
-        this.setState({isRunning: false})
+        this.clearGame();
+
+        // Send data to server
+    }
+
+    clearGame(){
+        this.setState({playerScore: 0, gameList: [], isRunning: false})
     }
 
     async play(event) {
@@ -126,11 +146,13 @@ const useStyles = theme => ({
             // Get element
             var element = document.getElementById(random)
 
-
             // Play Game here
-
             element.style.backgroundImage = `url(${emojipizza})`
-            this.playSound();
+            var sound = this.playSound();
+
+            //Add to list
+            var currentObject = {element: random, sound: sound}
+            this.setState({gameList: [...this.state.gameList, currentObject]})
             
             await this.sleep(2000)
 
@@ -145,8 +167,6 @@ const useStyles = theme => ({
         var catSound = 'cat';
         var dogSound = 'dog';
         var tigerSound = 'tiger'
-
-        console.log(random)
         
         switch(random){
             case 1:
@@ -167,6 +187,64 @@ const useStyles = theme => ({
         var sound = this.createSoundResult();
         let voice = new SpeechSynthesisUtterance(sound);
         speechSynthesis.speak(voice);
+
+        return sound;
+     }
+
+     positionPressed(event){
+        event.preventDefault();
+
+        var lastPosition = this.state.gameList[this.state.gameList.length - 1];
+        var comparePosition = this.state.gameList[this.state.gameList.length - 3];
+
+        if(lastPosition == undefined || comparePosition == undefined){
+            this.setState({playerScore: this.state.playerScore - 10})
+            return;
+        }
+
+        if(comparePosition.element == lastPosition.element){
+            this.setState({playerScore: this.state.playerScore + 10})
+        }else{
+            this.setState({playerScore: this.state.playerScore - 10})
+        }
+
+     }
+
+     soundPressed(event){
+        event.preventDefault();
+
+        var lastPosition = this.state.gameList[this.state.gameList.length - 1];
+        var comparePosition = this.state.gameList[this.state.gameList.length - 3];
+
+        if(lastPosition == undefined || comparePosition == undefined){
+            this.setState({playerScore: this.state.playerScore - 10})
+            return;
+        }
+
+        if(comparePosition.sound == lastPosition.sound){
+            this.setState({playerScore: this.state.playerScore + 10})
+        }else{
+            this.setState({playerScore: this.state.playerScore - 10})
+        }
+
+     }
+
+     bothPressed(event){
+        event.preventDefault();
+
+        var lastPosition = this.state.gameList[this.state.gameList.length - 1];
+        var comparePosition = this.state.gameList[this.state.gameList.length - 3];
+
+        if(lastPosition == undefined || comparePosition == undefined){
+            this.setState({playerScore: this.state.playerScore - 20})
+            return;
+        }
+
+        if(comparePosition.sound == lastPosition.sound && comparePosition.element == lastPosition.element){
+            this.setState({playerScore: this.state.playerScore + 40})
+        }else{
+            this.setState({playerScore: this.state.playerScore - 20})
+        }
      }
 
     render(){
@@ -221,13 +299,21 @@ const useStyles = theme => ({
             direction="row"
             justify="center"
             alignItems="center">
-            <h4 className={classes.buttonScore}>You Score <b id="playerscore">0</b> points</h4>
+            <h4 className={classes.buttonScore}>You Score <b id="playerscore">{this.state.playerScore}</b> points</h4>
             <h4 className={classes.buttonScore}>Current highscore <b id="highscore">0</b> points</h4>
             </Grid>
             <div>
                 <Button variant="contained" color="primary" onClick={this.play}>Play</Button>
                 &nbsp;&nbsp;&nbsp;
                 <Button variant="contained" color="primary" onClick={this.stop}>Stop</Button>
+            </div>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <div className={classes.gamebuttons}>
+                <Button variant="contained" color="primary" className={classes.wbuttons} onClick={this.positionPressed}>Position</Button>
+                &nbsp;&nbsp;&nbsp;
+                <Button variant="contained" color="primary" className={classes.wbuttons} onClick={this.soundPressed}>Sound</Button>
+                &nbsp;&nbsp;&nbsp;
+                <Button variant="contained" color="primary" className={classes.wbuttons} onClick={this.bothPressed}>Both</Button>
             </div>
         </div>
     )
