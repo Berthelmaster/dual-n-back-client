@@ -6,6 +6,7 @@ import emojipizza from '../assets/emojipizza.png'
 import { Button } from '@material-ui/core';
 import { Block, BlockOutlined, BlockSharp } from '@material-ui/icons';
 import { withStyles } from '@material-ui/core/styles';
+import { helpers } from "../helpers";
 
 const useStyles = theme => ({
     root: {
@@ -189,8 +190,23 @@ const useStyles = theme => ({
 
         this.clearGame();
 
+        this.sendHighScore()
         // Send data to server
 
+    }
+
+    async sendHighScore() {
+        var username = helpers.GetUsername()
+        var token = helpers.GetToken()
+
+        // Do not send if user is not logged in!
+        if(username == null || token == null){
+            return;
+        }
+
+        //Get score
+        var highscore = {name: username, score: this.state.playerScore}
+        this.state.ws.send(highscore)
     }
 
     clearGame(){
