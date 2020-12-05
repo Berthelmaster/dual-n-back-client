@@ -55,7 +55,8 @@ const useStyles = theme => ({
         this.state = {
             isRunning: false,
             gameList: [],
-            playerScore: 0
+            playerScore: 0,
+            highScore: 0
         }
 
         this.stop = this.stop.bind(this)
@@ -123,6 +124,7 @@ const useStyles = theme => ({
         this.clearGame();
 
         // Send data to server
+
     }
 
     clearGame(){
@@ -197,6 +199,10 @@ const useStyles = theme => ({
         var lastPosition = this.state.gameList[this.state.gameList.length - 1];
         var comparePosition = this.state.gameList[this.state.gameList.length - 3];
 
+        if(!this.state.isRunning){
+            return;
+        }
+
         if(lastPosition == undefined || comparePosition == undefined){
             this.setState({playerScore: this.state.playerScore - 10})
             return;
@@ -216,6 +222,10 @@ const useStyles = theme => ({
         var lastPosition = this.state.gameList[this.state.gameList.length - 1];
         var comparePosition = this.state.gameList[this.state.gameList.length - 3];
 
+        if(!this.state.isRunning){
+            return;
+        }
+
         if(lastPosition == undefined || comparePosition == undefined){
             this.setState({playerScore: this.state.playerScore - 10})
             return;
@@ -234,6 +244,10 @@ const useStyles = theme => ({
 
         var lastPosition = this.state.gameList[this.state.gameList.length - 1];
         var comparePosition = this.state.gameList[this.state.gameList.length - 3];
+
+        if(!this.state.isRunning){
+            return;
+        }
 
         if(lastPosition == undefined || comparePosition == undefined){
             this.setState({playerScore: this.state.playerScore - 20})
@@ -300,7 +314,7 @@ const useStyles = theme => ({
             justify="center"
             alignItems="center">
             <h4 className={classes.buttonScore}>You Score <b id="playerscore">{this.state.playerScore}</b> points</h4>
-            <h4 className={classes.buttonScore}>Current highscore <b id="highscore">0</b> points</h4>
+            <h4 className={classes.buttonScore}>Current highscore <b id="highscore">{this.state.highScore}</b> points</h4>
             </Grid>
             <div>
                 <Button variant="contained" color="primary" onClick={this.play}>Play</Button>
