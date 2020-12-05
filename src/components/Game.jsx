@@ -9,8 +9,12 @@ import { withStyles } from '@material-ui/core/styles';
 import { helpers } from "../helpers";
 
 const useStyles = theme => ({
+    
     root: {
         width: '50%',
+        ['@media (max-width: 780px)']: {
+            width: '95%'
+        },
         margin: "auto",
         marginTop: 0,
     },
@@ -26,6 +30,9 @@ const useStyles = theme => ({
     customBox: {
         flex: 0.33,
         height: "8vw",
+        ['@media (max-width: 780px)']: {
+            height: "15vw",
+        },
         padding: 5
     },
     customInnerBox: {
@@ -418,6 +425,7 @@ const useStyles = theme => ({
                 <Button variant="contained" color="primary" className={classes.wbuttons} onClick={this.soundPressed}>Sound</Button>
                 &nbsp;&nbsp;&nbsp;
                 <Button variant="contained" color="primary" className={classes.wbuttons} onClick={this.bothPressed}>Both</Button>
+                &nbsp;&nbsp;&nbsp;
             </div>
         </div>
     )
