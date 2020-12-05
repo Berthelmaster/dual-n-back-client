@@ -9,7 +9,7 @@ import { IconButton } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
 export default function Header() {
-    const [openMenu, setOpenMenu] = React.useState(null);
+    const [openMenu, setOpenMenu] = React.useState(false);
     const anchorRef = React.useRef(null);
 
     const handleClick = (event) => {
@@ -38,7 +38,7 @@ export default function Header() {
                         <MenuItem component={Link} to={'/rules'} onClick={handleClose}>Rules</MenuItem>
                         <MenuItem component={Link} to={'/login'} onClick={handleClose}>Login</MenuItem>
                         <MenuItem onClick={handleClose}>Logout</MenuItem>
-                    </Menu>
+                    </Menu> 
                     <Typography variant="h6">
                     Dual-N-Back | The Game
                     </Typography>
