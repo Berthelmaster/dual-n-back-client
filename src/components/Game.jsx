@@ -201,12 +201,14 @@ const useStyles = theme => ({
 
         // Do not send if user is not logged in!
         if(username == null || token == null){
-            return;
+           return;
         }
 
         //Get score
         var highscore = {name: username, score: this.state.playerScore}
-        this.state.ws.send(highscore)
+
+        var json = JSON.stringify(highscore)
+        this.state.ws.send(json)
     }
 
     clearGame(){
