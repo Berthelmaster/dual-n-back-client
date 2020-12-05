@@ -32,7 +32,7 @@ export class helpers {
     }
 
     static IsLoggedIn(){
-        if(helper.GetToken() == null){
+        if(this.GetToken() == null){
           return false
         }
         return true
