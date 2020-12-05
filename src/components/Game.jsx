@@ -231,6 +231,10 @@ const useStyles = theme => ({
     async play(event) {
         event.preventDefault();
 
+        if(this.state.isRunning){
+            return;
+        }
+
         //Set state
         this.setState({isRunning: true})
 
