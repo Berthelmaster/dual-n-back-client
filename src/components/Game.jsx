@@ -91,7 +91,7 @@ const useStyles = theme => ({
      This code is from: https://dev.to/finallynero/using-websockets-in-react-4fkp
      */
     connect = () => {
-        var ws = new WebSocket("ws://127.0.0.1:3000/");
+        var ws = new WebSocket("wss://gr14-dualnback-back.herokuapp.com");
         let that = this; // cache the this
         var connectInterval;
 
