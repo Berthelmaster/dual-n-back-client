@@ -66,7 +66,8 @@ const useStyles = theme => ({
             playerScore: 0,
             highScore: 0,
             creditedPlayer: 'unknown',
-            ws: null
+            ws: null,
+            onlineCount: 0
         }
 
         this.stop = this.stop.bind(this)
@@ -109,6 +110,10 @@ const useStyles = theme => ({
             // listen to data sent from the websocket server
             console.log(evt.data)
             var obj = JSON.parse(evt.data);
+            if(obj == null){
+                console.log('is null')
+                return;
+            }
             console.log("pbj " + obj)
             this.setState({
                 creditedPlayer: obj.name,
@@ -217,12 +222,13 @@ const useStyles = theme => ({
         var token = helpers.GetToken()
 
         // Do not send if user is not logged in!
-        if(username == null || token == null){
+        if(username == null || token == null || this.state.ws == null){
            return;
         }
 
         //Get score
         var playerScore = {name: username, score: this.state.playerScore}
+
 
         var json = JSON.stringify(playerScore)
         this.state.ws.send(json)
@@ -238,6 +244,8 @@ const useStyles = theme => ({
         if(this.state.isRunning){
             return;
         }
+
+        this.clearGame();
 
         //Set state
         this.setState({isRunning: true})
@@ -425,6 +433,9 @@ const useStyles = theme => ({
                 <Button variant="contained" color="primary" onClick={this.play}>Play</Button>
                 &nbsp;&nbsp;&nbsp;
                 <Button variant="contained" color="primary" onClick={this.stop}>Stop</Button>
+                <div>
+                    <h4>Users Online: {this.state.onlineCount}</h4>
+                </div>
             </div>
             &nbsp;&nbsp;&nbsp;&nbsp;
             <div className={classes.gamebuttons}>
