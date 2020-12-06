@@ -39,7 +39,7 @@ class Login extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        const localSite = "http://localhost:3000/login";
+        const localSite = "http://localhost:3002/login";
         fetch(localSite, {
             "method": "POST",
             "headers" : {
@@ -49,7 +49,7 @@ class Login extends Component {
                 userName: this.state.username,
                 password: this.state.password
             }),
-            //"mode": "no-cors",
+            "mode": "no-cors",
             })
             .then(response => response.json())
             .then((response) => {
@@ -57,8 +57,8 @@ class Login extends Component {
                 helpers.PushUsername(response.username)
                 this.props.history.push('/')
             })
-            .catch(err => {
-                console.log(err)
+            .catch((err) => {
+                console.log(JSON.stringify(err))
             });
     }
 

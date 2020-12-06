@@ -15,7 +15,6 @@
 var dataCacheName = 'dualNBack-v1';
 var cacheName = 'dualNBack-cache-v1';
 var filesToCache = [
-  '/',
   '/public/index.html',
   '/src/App.js',
   '/src/index.css',
@@ -59,7 +58,10 @@ self.addEventListener('activate', function(e) {
 
 self.addEventListener('fetch', function(e) {
   console.log('[Service Worker] Fetch', e.request.url);
-  var dataUrl = 'https://query.yahooapis.com/v1/public/yql';
+  var dataUrl = 'http://localhost:3002/';
+  if (e.request.cache === 'only-if-cached' && e.request.mode !== 'same-origin') {
+    return;
+  }
   if (e.request.url.indexOf(dataUrl) > -1) {
     /*
      * When the request URL contains dataUrl, the app is asking for fresh
@@ -70,7 +72,7 @@ self.addEventListener('fetch', function(e) {
      */
     e.respondWith(
       caches.open(dataCacheName).then(function(cache) {
-        return fetch(e.request).then(function(response){
+        return fetch(e.request).then((response) => {
           cache.put(e.request.url, response.clone());
           return response;
         });

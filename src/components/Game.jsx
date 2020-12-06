@@ -77,8 +77,30 @@ const useStyles = theme => ({
         this.bothPressed = this.bothPressed.bind(this)
     };
 
+    cacheOnlineCount(){
+        const localSite = "http://localhost:3002/usersCount";
+        fetch(localSite, {
+            "method": "GET",
+            "headers" : {
+                'Content-Type': 'application/json'
+            },
+            "mode": "no-cors",
+            })
+            .then(response => response.json())
+            .then((response) => {
+                console.log('kasdfopigkoqefpkwoefkw odqkwrpfow  kd')
+                console.log(response)
+            })
+            .catch(err => {
+                console.log('kasdfopigkoqefpkwoefkw odqkwrpfow  kd')
+                console.log(err)
+            });
+    }
+
     componentDidMount() {
         this.connect();
+
+        this.cacheOnlineCount();
     }
 
     timeout = 250; // Initial timeout duration as a class variable
@@ -92,7 +114,7 @@ const useStyles = theme => ({
      This code is from: https://dev.to/finallynero/using-websockets-in-react-4fkp
      */
     connect = () => {
-        var ws = new WebSocket("wss://gr14-dualnback-back.herokuapp.com");
+        var ws = new WebSocket("ws://127.0.0.1:3002");
         let that = this; // cache the this
         var connectInterval;
 

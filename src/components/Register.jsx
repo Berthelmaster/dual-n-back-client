@@ -39,7 +39,7 @@ class Register extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        const localSite = "http://localhost:3000/register"
+        const localSite = "http://localhost:3002/register"
         fetch(localSite, {
             "method": "POST",
             "headers" : {
@@ -49,7 +49,7 @@ class Register extends Component {
                 userName: this.state.username,
                 password: this.state.password
             }),
-            //"mode": "no-cors",
+            "mode": "no-cors",
             })
             .then(() => {
                 this.props.history.push('/login')
