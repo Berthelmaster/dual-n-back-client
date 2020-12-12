@@ -68,7 +68,6 @@ const useStyles = theme => ({
             highScore: 0,
             creditedPlayer: 'unknown',
             ws: null,
-            onlineCount: 0
         }
 
         this.stop = this.stop.bind(this)
@@ -404,9 +403,6 @@ const useStyles = theme => ({
                 <Button variant="contained" color="primary" onClick={this.play}>Play</Button>
                 &nbsp;&nbsp;&nbsp;
                 <Button variant="contained" color="primary" onClick={this.stop}>Stop</Button>
-                <div>
-                    <h4>Users Online: {this.state.onlineCount}</h4>
-                </div>
             </div>
             &nbsp;&nbsp;&nbsp;&nbsp;
             <div className={classes.gamebuttons}>
