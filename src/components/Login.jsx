@@ -39,7 +39,7 @@ class Login extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        const localSite = "http://localhost:3000/login";
+        const localSite = "https://gr14-dualnback-back.herokuapp.com/login";
         fetch(localSite, {
             "method": "POST",
             "headers" : {

@@ -7,6 +7,7 @@ import { Button } from '@material-ui/core';
 import { Block, BlockOutlined, BlockSharp } from '@material-ui/icons';
 import { withStyles } from '@material-ui/core/styles';
 import { helpers } from "../helpers";
+import socketIOClient from "socket.io-client";
 
 const useStyles = theme => ({
     
@@ -78,37 +79,15 @@ const useStyles = theme => ({
     };
 
     componentDidMount() {
-        this.connect();
-    }
+        var self = this;
+        var socket = socketIOClient.connect("https://gr14-dualnback-back.herokuapp.com/", {secure: true, reconnection: true, rejectUnauthorized: false})
+        this.setState({ws: socket})
+        socket.on('connect', function (m) { 
+            console.log("socket.io connection open");
+            console.log(m)
 
-    timeout = 250; // Initial timeout duration as a class variable
-
-    /**
-     * @function connect
-     * This function establishes the connect with the websocket and also ensures constant reconnection if connection closes
-     */
-
-     /*
-     This code is from: https://dev.to/finallynero/using-websockets-in-react-4fkp
-     */
-    connect = () => {
-        var ws = new WebSocket("wss://gr14-dualnback-back.herokuapp.com");
-        let that = this; // cache the this
-        var connectInterval;
-
-        // websocket onopen event listener
-        ws.onopen = () => {
-            console.log("connected websocket main component");
-
-            this.setState({ ws: ws });
-
-            that.timeout = 250; // reset timer to 250 on open of websocket connection 
-            clearTimeout(connectInterval); // clear Interval on on open of websocket connection
-        };
-
-        ws.onmessage = evt => {
-            // listen to data sent from the websocket server
-            console.log(evt.data)
+        
+            /*
             var obj = JSON.parse(evt.data);
             if(obj == null){
                 console.log('is null')
@@ -119,42 +98,28 @@ const useStyles = theme => ({
                 creditedPlayer: obj.name,
                 highScore: obj.score
             })
-        }
+            */
+        });
+        socket.on('connect_error', function (m) { console.log("error: ", m); });
 
-        // websocket onclose event listener
-        ws.onclose = e => {
-            console.log(
-                `Socket is closed. Reconnect will be attempted in ${Math.min(
-                    10000 / 1000,
-                    (that.timeout + that.timeout) / 1000
-                )} second.`,
-                e.reason
-            );
+        socket.on('Initialhighscore', function(data) {
+            console.log('Initial Setting...')
+            console.log(data)
+            
+            if(data == null){
+                return;
+            }
 
-            that.timeout = that.timeout + that.timeout; //increment retry interval
-            connectInterval = setTimeout(this.check, Math.min(10000, that.timeout)); //call check function after timeout
-        };
+            self.setState({creditedPlayer: data.name,highScore: data.score})
+            
+        })
 
-        // websocket onerror event listener
-        ws.onerror = err => {
-            console.error(
-                "Socket encountered error: ",
-                err.message,
-                "Closing socket"
-            );
-
-            ws.close();
-        };
-    };
-
-    /**
-     * utilited by the @function connect to check if the connection is close, if so attempts to reconnect
-     */
-    check = () => {
-        const { ws } = this.state;
-        if (!ws || ws.readyState == WebSocket.CLOSED) this.connect(); //check if websocket instance is closed, if so call `connect` function.
-    };
-
+        socket.on('newhighscore', function(data){
+            console.log('In here!')
+            self.setState({creditedPlayer: data.name,highScore: data.score})
+        })
+        
+    }
 
     generateRandomNumber(min, max) {
         var minNumber = min;
@@ -226,12 +191,18 @@ const useStyles = theme => ({
            return;
         }
 
+        if(this.state.highScore >= this.state.playerScore && this.state.highScore != 0){
+            return;
+        }
+
         //Get score
         var playerScore = {name: username, score: this.state.playerScore}
 
+        console.log('Sending new highscore...')
 
-        var json = JSON.stringify(playerScore)
-        this.state.ws.send(json)
+        console.log(this.state.ws);
+
+        this.state.ws.emit('newhighscore', playerScore)
     }
 
     clearGame(){

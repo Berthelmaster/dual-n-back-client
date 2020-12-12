@@ -38,8 +38,12 @@ class Register extends Component {
     };
 
     handleSubmit(event) {
+
+        console.log('username' + this.state.username)
+        console.log('pass' + this.state.password)
+
         event.preventDefault();
-        const localSite = "http://localhost:3000/register"
+        const localSite = "https://gr14-dualnback-back.herokuapp.com/register"
         fetch(localSite, {
             "method": "POST",
             "headers" : {
